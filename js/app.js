@@ -1,0 +1,1 @@
+const welcome = new Audio('music/beach.mp3')
