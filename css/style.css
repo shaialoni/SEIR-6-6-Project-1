@@ -78,3 +78,9 @@ html,body {
     background-color: #222;
   }
   
+  #button {
+    background-color: rgb(28, 25, 179);
+    color:rgb(99, 138, 192);
+    width: 125px;
+    height: 30px;
+  }
