@@ -1,15 +1,15 @@
 const game = document.getElementById('canvas')
 
-const randX = () => Math.floor((Math.random()* 500))
-const randY = () =>  Math.floor((Math.random()* 500))
+const randX = () => Math.floor((Math.random()* 200))
+const randY = () =>  Math.floor((Math.random()* 200))
 const randTiming = () => Math.floor((Math.random() * 20000) +1)
 
 const ctx = game.getContext('2d')
 
 let score = 0
 let health = 100
-game.setAttribute('width', 800)
-game.setAttribute('height', 500)
+game.setAttribute('width', 300)
+game.setAttribute('height', 200)
 
 const statusWindow = document.getElementById('status')
 const healthBar = document.getElementById('healthBar')
@@ -50,12 +50,13 @@ class Crawler {
 
 let player = new PlayerCrawler(20, 20, 'blue', 20, 20)
 let star = new Crawler(randX(), randY(), 'yellow', 5, 5)
-let bomb = new Crawler(randX(), randY(), 'red', 10, 10)
+let bomb = new Crawler(randX(), randY(), 'red', 75, 75)
 let medPac = new Crawler(randX(), randY(), 'white', 15, 5)
 
 const gameLoop = () => {
     ctx.clearRect(0, 0, game.width, game.height)
-    
+   
+   
     if (star.alive) {
         star.render()
         detectHit(star)
@@ -64,17 +65,19 @@ const gameLoop = () => {
     if (bomb.alive) {
         bomb.render()
         detectHit(bomb)
+    
     } 
     if (medPac.alive) {
         medPac.render()
         detectHit(medPac)
+        
     } 
     player.render()
     
 }
 
-setInterval(() => {star.alive = true}, 5000)
-setInterval(() => {bomb.alive = true}, randTiming)
+setInterval(() => {star.alive = true}, 2500)
+setInterval(() => {bomb.alive = true}, 10000)
 setInterval(() => {medPac.alive = true}, 25000)
 
 let gameInterval = setInterval(gameLoop, 60)
@@ -109,6 +112,8 @@ const detectHit = (thing) => {
         console.log('we have a hit')
         if (thing === star) {
             score += 10
+            star = new Crawler(randX(), randY(), 'yellow', 5, 5)
+            bomb = new Crawler(randX(), randY(), 'red', `${score+35}`, `${score+35}`)
             if (score === 100) {
                 statusWindow.textContent = 'You Won!'
                 stopGameLoop()
@@ -119,10 +124,12 @@ const detectHit = (thing) => {
         } else if (thing === bomb) {
             score = 0
             player.hitPoints -= 20
+            bomb = new Crawler(randX(), randY(), 'red', `${score+35}`, `${score+35}`)
             if (player.hitPoints <= 0) {
                 scoreBoard.textContent= `score: ${score}`
                 healthBar.textContent= `health: ${player.hitPoints}`
                 statusWindow.textContent = 'Oh no, you stepped on a bomb and now you are dead.'
+                stopGameLoop()
             } else {
                 scoreBoard.textContent= `score: ${score}`
                 healthBar.textContent= `health: ${player.hitPoints}`
@@ -131,8 +138,11 @@ const detectHit = (thing) => {
         } else if (thing === medPac) {
             if (player.hitPoints < 100) {
                 player.hitPoints += 10
+                medPac = new Crawler(randX(), randY(), 'white', 15, 5)
                 healthBar.textContent= `health: ${player.hitPoints}`
                 statusWindow.textContent = 'You found medicine!'
+            } else {
+                thing.alive = true
             }
         }
     }
