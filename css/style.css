@@ -78,9 +78,24 @@ html,body {
     background-color: #222;
   }
   
-  #button {
+  input {
     background-color: rgb(28, 25, 179);
     color:rgb(99, 138, 192);
     width: 125px;
     height: 30px;
+    border-radius: 25px;
+    border: 3px rgb(99, 138, 192) solid;
+  }
+
+  input:hover {
+    background-color: rgb(99, 138, 192);
+    color: black;
+    border: 3px solid black;
+  }
+
+  #difficulty {
+    text-align: center;
+    width: 500px;
+    display: flex;
+    justify-content: space-between;
   }
