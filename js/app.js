@@ -3,39 +3,40 @@ const resetButton = document.getElementById('button')
 const easyButton = document.querySelector('#difButtonEasy')
 const harderButton = document.querySelector('#difButtonHarder')
 const nutsButton = document.querySelector('#difButtonNuts')
-
-const randX = () => Math.floor((Math.random()* 200))
-const randY = () =>  Math.floor((Math.random()* 200))
-const randTiming = () => Math.floor((Math.random() * 20000) +1)
-
-const ctx = game.getContext('2d')
-
-let bombTiming = 10000
-let score = 0
-let health = 100
-game.setAttribute('width', 300)
-game.setAttribute('height', 200)
-
-// const updateBombTiming = () => {
-//     setInterval(() => {bomb.alive = true}, bombTiming) 
-// }
-
 const statusWindow = document.getElementById('status')
 const healthBar = document.getElementById('healthBar')
 const scoreBoard = document.getElementById('points')
+
+const bombTiming = 5000
+let score = 0
+let health = 100
+
+const randX = () => Math.floor((Math.random()* 200))
+const randY = () =>  Math.floor((Math.random()* 200))
+//const randTiming = () => Math.floor((Math.random() * 20000) +1)
+
+const ctx = game.getContext('2d')
+
+game.setAttribute('width', 300)
+game.setAttribute('height', 200)
+
+const updateBombTiming = (bt) => {
+    setInterval(() => {bomb.alive = true}, bt)
+    console.log('BT', bt) 
+}
 
 scoreBoard.textContent= `score: ${score}`
 healthBar.textContent= `health: ${health}/100`
 
 class Crawler {
-    constructor(x,y, color, width, height) {
+    constructor(x,y, color, width, height, speed) {
         this.x = x,
         this.y = y,
         this.color = color,
         this.width = width,
         this.height = height,
         this.alive = false,
-        this.speed = 16,
+        this.speed = speed,
         this.direction = {
             down: true
         },
@@ -81,8 +82,6 @@ class PlayerCrawler {
         if (key.toLowerCase() == 'a') {this.direction.left = true}
         if (key.toLowerCase() == 's') {this.direction.down = true}
         if (key.toLowerCase() == 'd') {this.direction.right = true}
-        
-        
     }
     
     unSetDirection = function (key) {
@@ -90,7 +89,6 @@ class PlayerCrawler {
         if (key.toLowerCase() == 'a') {this.direction.left = false}
         if (key.toLowerCase() == 's') {this.direction.down = false}
         if (key.toLowerCase() == 'd') {this.direction.right = false}
-        
     }
 
     movePlayer = function () {
@@ -125,18 +123,17 @@ class PlayerCrawler {
         ctx.fillRect(this.x, this.y, this.width, this.height)
     }
 }
-
+let bombSpeed = 10
 let player = new PlayerCrawler(20, 20, 'blue', 20, 20)
-let star = new Crawler(randX(), randY(), 'yellow', 5, 5)
-let bomb = new Crawler(randX(), 0, 'red', 15, 45)
-let medPac = new Crawler(randX(), randY(), 'white', 15, 5)
+let star = new Crawler(randX(), randY(), 'yellow', 5, 5, 0)
+let bomb = new Crawler(randX(), 0, 'red', 15, 45, bombSpeed)
+let medPac = new Crawler(randX(), randY(), 'white', 15, 10, 0)
 
 const gameLoop = () => {
     ctx.clearRect(0, 0, game.width, game.height)
     if (star.alive) {
         star.render()
         detectHit(star)
-        
     }    
     if (bomb.alive) {
         bomb.render()
@@ -145,7 +142,7 @@ const gameLoop = () => {
         if (bomb.y >= 155) {
             bomb.alive = false
             bomb.alive = true
-            bomb = new Crawler(randX(), 0, 'red', 15, 45)
+            bomb = new Crawler(randX(), 0, 'red', 15, 45, bombSpeed)
         }
     } 
     if (medPac.alive) {
@@ -156,12 +153,14 @@ const gameLoop = () => {
     player.movePlayer()
 }
 
+updateBombTiming(bombTiming)
 setInterval(() => {star.alive = true}, 1500)
-setInterval(() => {bomb.alive = true}, bombTiming)
 setInterval(() => {medPac.alive = true}, 25000)
 
 let gameInterval = setInterval(gameLoop, 60)
-const stopGameLoop = () => {clearInterval(gameInterval)}
+const stopGameLoop = () => {
+    clearInterval(gameInterval)
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     gameInterval
@@ -179,7 +178,6 @@ document.addEventListener('keyup', (e) => {
 })
 
 const detectHit = (thing) => {
-   
     if (player.x < thing.x + thing.width && player.x + player.width > thing.x && player.y < thing.y + thing.height && player.y + player.height > thing.y) {
         thing.alive = false
         console.log('we have a hit')
@@ -198,19 +196,19 @@ const detectHit = (thing) => {
             player.hitPoints -= 20
             if (player.hitPoints <= 0) {
                 scoreBoard.textContent= `score: ${score}`
-                healthBar.textContent= `health: ${player.hitPoints}`
+                healthBar.textContent= `health: ${player.hitPoints}/100`
                 statusWindow.textContent = 'Oh no, you got hit by a bomb and now you are dead.'
                 stopGameLoop()
             } else {
                 scoreBoard.textContent= `score: ${score}`
-                healthBar.textContent= `health: ${player.hitPoints}`
+                healthBar.textContent= `health: ${player.hitPoints}/100`
                 statusWindow.textContent = 'Oh no, you got hit by a bomb!'
             }
         } else if (thing === medPac) {
             if (player.hitPoints < 100) {
                 player.hitPoints += 10
-                medPac = new Crawler(randX(), randY(), 'white', 15, 5)
-                healthBar.textContent= `health: ${player.hitPoints}`
+                medPac = new Crawler(randX(), randY(), 'white', 15, 10)
+                healthBar.textContent= `health: ${player.hitPoints}/100`
                 statusWindow.textContent = 'You found medicine!'
             } else {
                 thing.alive = true
@@ -219,32 +217,43 @@ const detectHit = (thing) => {
     }
 }
 
-resetButton.addEventListener('click', function() {
-    // ctx.clearRect(0, 0, game.width, game.height)
+const resetGame = () => {
     score = 0
     scoreBoard.textContent= `score: ${score}`
     player.hitPoints = 100
-    healthBar.textContent= `health: ${player.hitPoints}`
+    healthBar.textContent= `health: ${player.hitPoints}/100`
     statusWindow.textContent = 'Game On!'
+    //updateBombTiming(bombTiming)
+    bombSpeed = 5
+    console.log('bombseed', bombSpeed)
     stopGameLoop()
+    clearInterval(updateBombTiming)
     gameInterval = setInterval(gameLoop, 60)
-    
-    
-})
+}
+resetButton.addEventListener('click', resetGame)
 
-easyButton.addEventListener('click', () => {
-    bombTiming = 5000
-    setInterval(() => {bomb.alive = true}, bombTiming)
-    console.log('This is bomb timing', bombTiming)
+easyButton.addEventListener('click', function () {
+    resetGame()
+    const easyBT = 5000
+    updateBombTiming(easyBT)
+    bombSpeed = 5
+    console.log('This is bomb timing', easyBT)
+    console.log(bombSpeed)
 })
-harderButton.addEventListener('click', () => {
-    bombTiming = 2500
-    setInterval(() => {bomb.alive = true}, bombTiming)   
-    console.log('This is bomb timing', bombTiming) 
+harderButton.addEventListener('click', function () {
+    resetGame()
+    const hardBT = 2500
+    updateBombTiming(hardBT)
+    bombSpeed = 20  
+    //console.log('This is bomb timing', hardBT) 
+    console.log('this.speed', bomb.speed)
+    console.log('var bombspeed', bombSpeed)
 })
-nutsButton.addEventListener('click', () => {
-    bombTiming = 500
-    setInterval(() => {bomb.alive = true}, bombTiming)
-    bomb.render()
-    console.log('This is bomb timing', bombTiming)
+nutsButton.addEventListener('click', function () {
+    resetGame()
+    const nutsBT = 500
+    updateBombTiming(nutsBT)
+    bombSpeed = 35
+    //console.log('This is bomb timing', nutsBT)
+    console.log(bombSpeed)
 })
