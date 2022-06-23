@@ -4,21 +4,21 @@ const easyButton = document.querySelector('#difButtonEasy')
 const harderButton = document.querySelector('#difButtonHarder')
 const nutsButton = document.querySelector('#difButtonNuts')
 
-const updateBombTiming = () => {
-    setInterval(() => {bomb.alive = true}, bombTiming) 
-}
-
 const randX = () => Math.floor((Math.random()* 200))
 const randY = () =>  Math.floor((Math.random()* 200))
 const randTiming = () => Math.floor((Math.random() * 20000) +1)
 
 const ctx = game.getContext('2d')
 
-let bombTiming = 2500
+let bombTiming = 10000
 let score = 0
 let health = 100
 game.setAttribute('width', 300)
 game.setAttribute('height', 200)
+
+// const updateBombTiming = () => {
+//     setInterval(() => {bomb.alive = true}, bombTiming) 
+// }
 
 const statusWindow = document.getElementById('status')
 const healthBar = document.getElementById('healthBar')
@@ -142,7 +142,7 @@ const gameLoop = () => {
         bomb.render()
         bomb.bombDrop()
         detectHit(bomb)
-        if (bomb.y >= 150) {
+        if (bomb.y >= 155) {
             bomb.alive = false
             bomb.alive = true
             bomb = new Crawler(randX(), 0, 'red', 15, 45)
@@ -157,7 +157,7 @@ const gameLoop = () => {
 }
 
 setInterval(() => {star.alive = true}, 1500)
-updateBombTiming()
+setInterval(() => {bomb.alive = true}, bombTiming)
 setInterval(() => {medPac.alive = true}, 25000)
 
 let gameInterval = setInterval(gameLoop, 60)
@@ -220,33 +220,31 @@ const detectHit = (thing) => {
 }
 
 resetButton.addEventListener('click', function() {
-    ctx.clearRect(0, 0, game.width, game.height)
+    // ctx.clearRect(0, 0, game.width, game.height)
     score = 0
     scoreBoard.textContent= `score: ${score}`
     player.hitPoints = 100
     healthBar.textContent= `health: ${player.hitPoints}`
     statusWindow.textContent = 'Game On!'
-    
-    gameInterval
+    stopGameLoop()
+    gameInterval = setInterval(gameLoop, 60)
     
     
 })
 
 easyButton.addEventListener('click', () => {
-    
     bombTiming = 5000
-    updateBombTiming()
+    setInterval(() => {bomb.alive = true}, bombTiming)
     console.log('This is bomb timing', bombTiming)
 })
 harderButton.addEventListener('click', () => {
     bombTiming = 2500
-    updateBombTiming()   
-     
+    setInterval(() => {bomb.alive = true}, bombTiming)   
+    console.log('This is bomb timing', bombTiming) 
 })
 nutsButton.addEventListener('click', () => {
-    bombTiming = 550
-    updateBombTiming()
+    bombTiming = 500
+    setInterval(() => {bomb.alive = true}, bombTiming)
+    bomb.render()
+    console.log('This is bomb timing', bombTiming)
 })
-// document.addEventListener('keydown', function() {
-    
-// })
