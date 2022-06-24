@@ -7,23 +7,21 @@ const statusWindow = document.getElementById('status')
 const healthBar = document.getElementById('healthBar')
 const scoreBoard = document.getElementById('points')
 
-const bombTiming = 5000
 let score = 0
 let health = 100
 
 const randX = () => Math.floor((Math.random()* 200))
 const randY = () =>  Math.floor((Math.random()* 200))
-//const randTiming = () => Math.floor((Math.random() * 20000) +1)
 
 const ctx = game.getContext('2d')
-
-game.setAttribute('width', 300)
-game.setAttribute('height', 200)
 
 const updateBombTiming = (bt) => {
     setInterval(() => {bomb.alive = true}, bt)
     console.log('BT', bt) 
 }
+
+game.setAttribute('width', 300)
+game.setAttribute('height', 200)
 
 scoreBoard.textContent= `score: ${score}`
 healthBar.textContent= `health: ${health}/100`
@@ -123,6 +121,7 @@ class PlayerCrawler {
         ctx.fillRect(this.x, this.y, this.width, this.height)
     }
 }
+
 let bombSpeed = 10
 let player = new PlayerCrawler(20, 20, 'blue', 20, 20)
 let star = new Crawler(randX(), randY(), 'yellow', 5, 5, 0)
@@ -153,17 +152,22 @@ const gameLoop = () => {
     player.movePlayer()
 }
 
+const bombTiming = 3000
 updateBombTiming(bombTiming)
 setInterval(() => {star.alive = true}, 1500)
 setInterval(() => {medPac.alive = true}, 25000)
 
-let gameInterval = setInterval(gameLoop, 60)
+let gameInterval
+// let gameInterval = setInterval(gameLoop, 60)
+const startGameLoop = () => {
+    gameInterval = setInterval(gameLoop, 60)
+}
 const stopGameLoop = () => {
     clearInterval(gameInterval)
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    gameInterval
+    startGameLoop()
 })
 
 document.addEventListener('keydown', (e) => {
@@ -227,33 +231,32 @@ const resetGame = () => {
     bombSpeed = 5
     console.log('bombseed', bombSpeed)
     stopGameLoop()
-    clearInterval(updateBombTiming)
-    gameInterval = setInterval(gameLoop, 60)
+    //clearInterval(updateBombTiming)
+    startGameLoop()
 }
 resetButton.addEventListener('click', resetGame)
 
 easyButton.addEventListener('click', function () {
     resetGame()
-    const easyBT = 5000
-    updateBombTiming(easyBT)
+    //const easyBT = 5000
+    //updateBombTiming(easyBT)
     bombSpeed = 5
-    console.log('This is bomb timing', easyBT)
-    console.log(bombSpeed)
+    //console.log('This is bomb timing', easyBT)
+    console.log('bomb speed', bombSpeed)
 })
 harderButton.addEventListener('click', function () {
     resetGame()
-    const hardBT = 2500
-    updateBombTiming(hardBT)
+    //const hardBT = 2500
+    //updateBombTiming(hardBT)
     bombSpeed = 20  
     //console.log('This is bomb timing', hardBT) 
-    console.log('this.speed', bomb.speed)
     console.log('var bombspeed', bombSpeed)
 })
 nutsButton.addEventListener('click', function () {
     resetGame()
-    const nutsBT = 500
-    updateBombTiming(nutsBT)
+    //const nutsBT = 500
+    //updateBombTiming(nutsBT)
     bombSpeed = 35
     //console.log('This is bomb timing', nutsBT)
-    console.log(bombSpeed)
+    console.log('bomb speed', bombSpeed)
 })

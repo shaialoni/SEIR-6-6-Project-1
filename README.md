@@ -1,48 +1,56 @@
-# SEIR-6-6-Project-1
+# Project 1 game - Don't Die!
 
-# Your app must:
+# Game instructions
 
-Display a game in the browser
-Switch turns between two players, or have the user play the computer (AI or obstacles)
-Design logic for winning & visually display which player won
-Include separate HTML / CSS / JavaScript files
-Stick with KISS (Keep It Simple Stupid) and DRY (Don't Repeat Yourself) principles
-Use Javascript for DOM manipulation
-Deploy your game online, where the rest of the world can access it**
-Use semantic markup for HTML and CSS (adhere to best practices)
+The player (blue) moves by using the w,a,s,d keys
+w - move up
+a - move left
+d - move right
+s - move down
 
-# Necessary Deliverables
+The goal of the game is to collect all the yellow stars, each star gives you 10 points. When you reach 100 points, you win!
 
-A working game, built by you, hosted somewhere on the internet
-A git repository hosted on Github, with a link to your hosted game, and frequent commits dating back to the very beginning of the project
-A readme.md file with explanations of the technologies used, the approach taken, installation instructions, unsolved problems, etc.
+Watch out for the red bombs! If you get hit by one, you will lose all your score, and lose 20 HP.
 
-# Suggested Ways to Get Started
+keep an eye out for medpacks - the white objects will restore 10 HP, so use them to gain health back, because if your health reaches 0, the game will end.
 
-Break the project down into different components (data, presentation, views, style, DOM manipulation) and brainstorm each component individually. Use whiteboards!
-Use your Development Tools (console.log, inspector, alert statements, etc) to debug and solve problems
-Work through the lessons in class & ask questions when you need to! Think about adding relevant code to your game each night, instead of, you know... procrastinating.
-Commit early, commit often. Don't be afraid to break something because you can always go back in time to a previous version.
-Consult documentation resources (MDN, etc.) to better understand what you'll be getting into.
-Don't be afraid to write code that you know you will have to remove later. Create temporary elements (buttons, links, etc) that trigger events if real data is not available. For example, if you're trying to figure out how to change some text when the game is over but you haven't solved the win/lose game logic, you can create a button to simulate that until then.
+# Game Description
 
-# game idea - super mario style scroller game
+Don't Die is a web game, currently only work on computers, and displays best on Google Chrome.
+Technologies used - HTML, Canvas, JavaScript and CSS
+The game started as something quite different, but in the process of the developing, it took a turn and then became it's own thing.
+The approach was to have a player controled element, that would explore around the screen, collect items and avoid obstacles.
+Then we decided on making the obstacles mobile to increase the difficuty of the game.
 
-2d third person style game where character goes on an adventure and is able to explore the playing field, collect items and encounter random computer generated characters.
+The game has three difficulty modes, in each mode the bombs drop in a faster speed.
 
-games goal - collect enough items
+# Installation instructions
+open the link and enjoy the game :)
+
+# Future updates
+
+in a future update we will enable an option to increase the speed of the bomb spawning, to increase diffuculty.
+
+
+###########################################################################################
+
+# game idea - Evade the bombs, collect the stars to win
+
+Run around with your player, the goal is to collect the stars without getting hit by the bombs!
+
+games goal - reach 100 points
 
 # user experience - 
-(Music??? Sound effects???)
+
 the game starts with player selection - user get's to pick a character. (two characters available)
 
-At game start, character diplays on a screen with basic landscape in the background.
-character can move around the screen and the screen scrolls as the character advances. once the screen scroll, there is no going back.
+At game start, the player is on screen, and stars start showing up.
+Bombs start falling from the top an random locations.
+The player needs to avoid the bombs while collecting the stars to get to 100 points.
+If a bomb hits you, it will reset your score, and decrease your health.
+Not to worry! med packs also will become available during the game, and can be used to restore your health!
 
-different platforms will become available as the landscape scrolls, with different items displaying on the different platforms. some items will increase your score (coins, food, etc), and some items will decrease your score (spiky things, bombs, etc).
-
-game goal - reach the pre determined score to win. game can also end if the score (separate health measurement?) reaches zero.
-
+game goal - reach 100 points to win. If you reach 0 HP - you lose.
 
 
 
