@@ -10,7 +10,7 @@ const scoreBoard = document.getElementById('points')
 let score = 0
 let health = 100
 
-const randX = () => Math.floor((Math.random()* 200))
+const randX = () => Math.floor((Math.random()* 300))
 const randY = () =>  Math.floor((Math.random()* 200))
 
 const ctx = game.getContext('2d')
@@ -138,7 +138,7 @@ const gameLoop = () => {
         bomb.render()
         bomb.bombDrop()
         detectHit(bomb)
-        if (bomb.y >= 155) {
+        if (bomb.y >= game.height-50) {
             bomb.alive = false
             bomb.alive = true
             bomb = new Crawler(randX(), 0, 'red', 15, 45, bombSpeed)

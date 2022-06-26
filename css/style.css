@@ -8,20 +8,18 @@ html,body {
   body {
     padding-top: 1em;
     text-align: center;
-    background-color: rgb(28, 25, 179);
-    
+    background: linear-gradient(rgb(28, 25, 179), rgb(99, 138, 192),white );
+    height: 1300px;
     background-size: cover;
     background-repeat: space;
-    background-image: na;
   }
   
-  h1, h2 {
+  h1, h2, #instructions {
     font-family: 'Press Start 2P', monospace;
     color: rgb(99, 138, 192);
   }
   
   canvas {
-    
     background-repeat: repeat;
     background-color: #222;
     width: 100%;
@@ -29,18 +27,15 @@ html,body {
   }
   
   #container {
-  max-width: 500em;
-  height: 70vh;
-  background-color: rgb(28, 25, 179);
-  margin: 0 auto;
-  padding: 1em;
-  display: grid;
-  grid-gap: 1em;
-  grid-template-rows: .25fr .5fr .25fr;
-  grid-template-columns: .25fr .5fr .25fr;
-  grid-template-areas: "top-left top-center top-right" "game game game"
-                          "btm-left btm-right btm-right";
-                          
+    justify-content: center;
+    overflow: auto;
+    display: grid;
+    grid-gap: 1em;
+    grid-template-rows: .25fr .5fr .25fr;
+    grid-template-columns: .25fr .5fr .25fr;
+    grid-template-areas: "top-left top-center top-right" "game game game"
+                            "btm-left btm-right btm-right";
+                            
   }
   
   #top-left, #top-right, #btm-left, #btm-right {
@@ -100,3 +95,11 @@ html,body {
     display: flex;
     justify-content: space-around;
   }
+
+#inst {
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-size: 35px;
+  overflow: hidden;
+}
