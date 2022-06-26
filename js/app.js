@@ -10,7 +10,7 @@ const scoreBoard = document.getElementById('points')
 let score = 0
 let health = 100
 
-const randX = () => Math.floor((Math.random()* game.width))
+const randX = () => Math.floor((Math.random()* game.width                   ))
 const randY = () =>  Math.floor((Math.random()* game.height))
 
 const ctx = game.getContext('2d')
