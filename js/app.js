@@ -10,8 +10,8 @@ const scoreBoard = document.getElementById('points')
 let score = 0
 let health = 100
 
-const randX = () => Math.floor((Math.random()* 300))
-const randY = () =>  Math.floor((Math.random()* 200))
+const randX = () => Math.floor((Math.random()* game.width))
+const randY = () =>  Math.floor((Math.random()* game.height))
 
 const ctx = game.getContext('2d')
 
@@ -21,7 +21,7 @@ const updateBombTiming = (bt) => {
 }
 
 game.setAttribute('width', 300)
-game.setAttribute('height', 200)
+game.setAttribute('height', 150)
 
 scoreBoard.textContent= `score: ${score}`
 healthBar.textContent= `health: ${health}/100`
