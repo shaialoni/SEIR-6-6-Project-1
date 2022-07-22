@@ -26,13 +26,14 @@ The game has three difficulty modes, in each mode the bombs drop in a faster spe
 
 # Installation instructions
 open the link and enjoy the game :)
+To run localy, make sure you have all three files (index.html, js/app.js and css/style.css) in the same root directory with folders for JS and CSS
 
 # Future updates
 
 in a future update we will enable an option to increase the speed of the bomb spawning, to increase diffuculty.
 
 
-###########################################################################################
+# PLANNING PROCESS
 
 # game idea - Evade the bombs, collect the stars to win
 
